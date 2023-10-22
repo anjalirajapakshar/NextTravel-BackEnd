@@ -23,10 +23,10 @@ public class Hotel {
     private String hotelEmail;
     private String hotelContactNumber;
     private boolean isPetsAllowed;
-    private double FullBoardDoublehotelFee;
-    private double HalfBoardDoublehotelFee;
-    private double FullBoardTriplehotelFee;
-    private double HalfBoardTriplehotelFee;
+    private int FullBoardDoublehotelFee;
+    private int HalfBoardDoublehotelFee;
+    private int FullBoardTriplehotelFee;
+    private int HalfBoardTriplehotelFee;
     private String cancellationCriteria;
 
     private String packageId;

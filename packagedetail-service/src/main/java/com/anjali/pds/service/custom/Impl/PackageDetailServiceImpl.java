@@ -120,7 +120,7 @@ public class PackageDetailServiceImpl implements PackageDetailService {
                 if (Objects.equals(packageDetails.get(i).getUserId(), userId)){
                     System.out.println(packageDetails.get(i).getPackageDetailId());
                     packageDetailRepo.deleteById(packageDetails.get(i).getPackageDetailId());
-                    return createAndSendResponse(HttpStatus.OK.value(), "Payment "+packageDetails.get(i).getPackageDetailId()+" deleted!", null);
+                    return createAndSendResponse(HttpStatus.OK.value(), "PackageDetail "+packageDetails.get(i).getPackageDetailId()+" deleted!", null);
                 }
             }
             return createAndSendResponse(HttpStatus.OK.value(), "ooppsss!", null);
