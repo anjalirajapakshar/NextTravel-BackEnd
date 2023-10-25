@@ -24,4 +24,7 @@ public interface SuperService<T extends HotelDTO,ID >{
     Response createAndSendResponse(int statusCode, String message, Object data);
 
     Response getHotelByUserName(String hotelUserName);
+
+
+    Response getHotelsByPackageId(String packageId);
 }

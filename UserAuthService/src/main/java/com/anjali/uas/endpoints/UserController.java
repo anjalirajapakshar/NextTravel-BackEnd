@@ -8,16 +8,16 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/user")
+@RequestMapping("")
 @CrossOrigin
 public class UserController {
     @Autowired
     private UserDetailsServicee userDetailsServicee;
-/*
+
     @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response save(@RequestBody UserDetailsDTO userDetailsDTO) {
         return userDetailsServicee.save(userDetailsDTO);
-    }*/
+    }
 
     @PutMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response update(@RequestBody UserDetailsDTO userDetailsDTO) {

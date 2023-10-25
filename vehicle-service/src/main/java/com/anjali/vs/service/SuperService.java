@@ -28,4 +28,6 @@ public interface SuperService<T extends SuperDTO,ID >{
     Response deleteVehicles(List<String> vehicleIds);
 
     Response getVehicleByUserName(String vehicleBrand);
+
+    Response getVehiclesByPackageId(String packageId);
 }

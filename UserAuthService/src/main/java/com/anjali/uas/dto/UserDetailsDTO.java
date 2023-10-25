@@ -16,8 +16,8 @@ public class UserDetailsDTO implements SuperDTO, Serializable {
     private String userId;
     private String userName;
     private String pw;
-    @Enumerated(EnumType.STRING)
-    private Roles role;
+//    @Enumerated(EnumType.STRING)
+    private String role;
     private String userNIC;
     private String userAddress;
     private String userDOB;

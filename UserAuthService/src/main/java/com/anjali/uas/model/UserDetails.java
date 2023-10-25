@@ -22,8 +22,8 @@ public class UserDetails implements org.springframework.security.core.userdetail
     private String userId;
     private String userName;
     private String pw;
-    @Enumerated(EnumType.STRING)
-    private Roles role;
+//    @Enumerated(EnumType.STRING)
+    private String role;
     private String userNIC;
     private String userAddress;
     private String userDOB;
@@ -38,7 +38,7 @@ public class UserDetails implements org.springframework.security.core.userdetail
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority(role));
     }
 
     @Override
