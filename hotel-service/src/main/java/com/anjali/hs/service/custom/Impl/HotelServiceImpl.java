@@ -44,28 +44,7 @@ public class HotelServiceImpl implements HotelService {
             return createAndSendResponse(HttpStatus.OK.value(), "Hotel Successfully saved!", null);
         }
         throw new RuntimeException("Hotel already exists!");
-//        if (search(hotelDTO.getHotelID()).getData() == null) {
-//
-//            Optional<Packages> packages = packagesControllerInterface.getPackage(hotelDTO.getPackageId());
-//
-//            if(packages.isPresent()){
-//                String packageId = packages.get().getPackageId();
-//                String packageCategory = packages.get().getPackageCategory();
-//                String hotelCategory = packages.get().getHotelCategory();
-//                String vehicleCategory = packages.get().getVehicleCategory();
-//
-//                Packages packages1 = new Packages(packageId, packageCategory,vehicleCategory, hotelCategory ,new ArrayList<>(),new ArrayList<>());
-//
-//                Hotel hotel = modelMapper.map(hotelDTO, Hotel.class);
-//                hotel.setPackageId(packages1);
-//                System.out.println(hotel);
-//                hotelRepo.save(hotel);
-//                return createAndSendResponse(HttpStatus.OK.value(), "Hotel Successfully saved!", null);
-//
-//            }
-//
-//        }
-//        throw new RuntimeException("Hotel already exists!");
+
     }
 
     @Override
@@ -152,6 +131,18 @@ public class HotelServiceImpl implements HotelService {
             return createAndSendResponse(HttpStatus.OK.value(), "Hotel successfully retreived deleted!", hotelDTO);
         }
         throw new RuntimeException("Hotel cannot find!!");
+    }
+
+    @Override
+    public Response getHotelsByPackageId(String packageId) {
+        List<Hotel> hotels = hotelRepo.findHotelByPackageId(packageId);
+        System.out.println(hotels);
+
+        if (hotels != null){
+            return createAndSendResponse(HttpStatus.OK.value(), "Hotels successfully retreived!", hotels);
+        }
+        return createAndSendResponse(HttpStatus.OK.value(), "Cannot find Hotels to the given packageId!", null);
+
     }
 
     public String generateNextAppointmentId(){

@@ -14,4 +14,7 @@ public interface HotelRepo  extends JpaRepository<Hotel, String> {
 
     @Query("SELECT h.hotelID from Hotel h order by h.hotelID DESC")
     List<String> getLastId();
+
+    @Query("SELECT h FROM Hotel h WHERE h.packageId = :packageId")
+    List<Hotel> findHotelByPackageId(@Param("packageId") String packageId);
 }
