@@ -109,19 +109,25 @@ public class PaymentServiceImpl implements PaymentService {
         System.out.println(userId);
 
         List<Payment> payments = paymentRepo.findAll();
+        List<String> deletedIds = new ArrayList<>();
         if (!payments.isEmpty()) {
             for (int i = 0; i < payments.size(); i++) {
                 System.out.println(payments.get(i).getUserId() +"========"+userId );
                 if (Objects.equals(payments.get(i).getUserId(), userId)){
                     System.out.println(payments.get(i).getPaymentId());
                     paymentRepo.deleteById(payments.get(i).getPaymentId());
-                    return createAndSendResponse(HttpStatus.OK.value(), "Payment "+payments.get(i).getPaymentId()+" deleted!", null);
+                    deletedIds.add(payments.get(i).getPaymentId());
                 }
             }
-            return createAndSendResponse(HttpStatus.OK.value(), "ooppsss!", null);
-
+            if (!deletedIds.isEmpty()) {
+                // At least one item was deleted
+                return createAndSendResponse(HttpStatus.OK.value(), "payments " + deletedIds + " deleted!", null);
+            } else {
+                // No matching items were found
+                return createAndSendResponse(HttpStatus.OK.value(), "No matching payments found!", null);
+            }
         }
-        throw new RuntimeException("No Payments found in the database!");
+        return createAndSendResponse(HttpStatus.OK.value(), "no payments for this userid!", null);
 
 
     }

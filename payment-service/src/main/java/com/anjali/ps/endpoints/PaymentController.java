@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("")
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin
 public class PaymentController {
     @Autowired
     private PaymentService paymentService;
