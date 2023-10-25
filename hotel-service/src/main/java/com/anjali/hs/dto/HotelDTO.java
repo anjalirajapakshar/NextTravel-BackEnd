@@ -14,15 +14,16 @@ public class HotelDTO implements Serializable,SuperDTO{
     private String hotelName;
     private String hotelCatageory;
     private String hotelLocation;
-    private String hotelLocationWithCoordinates;
     private String hotelEmail;
     private String hotelContactNumber;
-    private boolean isPetsAllowed;
-    private int FullBoardDoublehotelFee;
-    private int HalfBoardDoublehotelFee;
-    private int FullBoardTriplehotelFee;
-    private int HalfBoardTriplehotelFee;
+    private String isPetsAllowed;
+
+    private double fullDbl;
+    private double halfDbl;
+    private double fullTpl;
+    private double halfTpl;
     private String cancellationCriteria;
 
     private String packageId;
 }
+//fullDbl.halfDbl.fullTpl.halfTpl

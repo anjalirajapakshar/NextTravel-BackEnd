@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("")
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin
 public class HotelController {
 
     @Autowired
@@ -56,6 +56,13 @@ public class HotelController {
     public Response getHotelByUserName(@RequestParam("HotelName") String hotelName){
         return hotelService.getHotelByUserName(hotelName);
     }
+
+    @GetMapping(path = "/getHotelsByPackageId", params = "packageId")
+    public Response getHotelsByPackageId(@RequestParam("packageId") String packageID){
+        return hotelService.getHotelsByPackageId(packageID);
+    }
+
+
 }
 
 //{
@@ -72,11 +79,6 @@ public class HotelController {
 //        "FullBoardTriplehotelFee": 80000.00,
 //        "HalfBoardTriplehotelFee": 75000.00,
 //        "cancellationCriteria": "Free cancellation up to 48 hours before check-in",
-//        "packageId": {
-//        "packageID": "P004",
-//        "packageCategory": "5 Star",
-//        "vehicleCategory": "Super Luxury",
-//        "hotelCategory": "Super Luxury"
-//        }
+//        "packageId": "P004"
 //}
 
