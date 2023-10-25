@@ -11,4 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface GuideControllerInterface {
     @GetMapping(path = "/search", params = "guideId", produces = MediaType.APPLICATION_JSON_VALUE)
     public GuideDTO getGuideDTO(@RequestParam("guideId") String guideId);
+
+    @GetMapping(path = "/getGuideByUserName", params = "GuideUserName")
+    public Response getGuideByUserName(@RequestParam("GuideUserName") String guideUserName);
 }
