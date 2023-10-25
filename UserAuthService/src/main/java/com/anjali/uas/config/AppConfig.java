@@ -39,5 +39,12 @@ public class AppConfig {
         return new ModelMapper();
     }
 
+    @Bean
+    public RequestInterceptor requestInterceptor() {
+        return requestTemplate -> {
+            requestTemplate.header("Authorization", "Bearer " + JWTAuthFilter.JWT_TOKEN);
+        };
+    }
+
 
 }
