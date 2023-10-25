@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("")
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin
 public class VehicleController {
     @Autowired
     private Response response;
@@ -63,6 +63,11 @@ public class VehicleController {
     @GetMapping(path = "/getVehicleByUserName", params = "VehicleBrand")
     public Response getVehicleByUserName(@RequestParam("VehicleBrand") String vehicleBrand){
         return vehicleService.getVehicleByUserName(vehicleBrand);
+    }
+
+    @GetMapping(path = "/getVehiclesByPackageId", params = "packageId")
+    public Response getVehiclesByPackageId(@RequestParam("packageId") String packageID){
+        return vehicleService.getVehiclesByPackageId(packageID);
     }
 
 }

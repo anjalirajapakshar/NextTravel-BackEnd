@@ -20,9 +20,11 @@ public class Vehicle {
     private String vehicleCategory;
     private String fuelType;
     private String hybridOrNot;
-    private String fuelUsage;
+    private int fuelUsage;
+    private int feeForDay;
+    private int feeForOnekm;
     private String vehicleImage;
-    private String seatCapacity;
+    private int seatCapacity;
     private String vehicleType;
     private String transmissionType;
     private String driversName;

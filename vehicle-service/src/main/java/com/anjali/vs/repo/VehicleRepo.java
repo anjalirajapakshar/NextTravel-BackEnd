@@ -14,4 +14,7 @@ public interface VehicleRepo  extends JpaRepository<Vehicle, String> {
 
     @Query("SELECT p.vehicleID from Vehicle p order by p.vehicleID DESC")
     List<String> getLastId();
+
+    @Query("SELECT v FROM Vehicle v WHERE v.packageId = :packageId")
+    List<Vehicle> findVehiclesByPackageId(@Param("packageId") String packageId);
 }

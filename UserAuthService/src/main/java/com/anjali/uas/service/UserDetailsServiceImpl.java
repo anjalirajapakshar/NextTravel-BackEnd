@@ -1,6 +1,7 @@
 package com.anjali.uas.service;
 
 
+import com.anjali.uas.config.JWTService;
 import com.anjali.uas.dto.UserDetailsDTO;
 import com.anjali.uas.interfaces.PackageDetailControllerInterface;
 import com.anjali.uas.interfaces.PaymentControllerInterface;
@@ -10,7 +11,6 @@ import com.anjali.uas.response.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,8 +39,12 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserDetailsSer
 
     @Autowired
     private PaymentControllerInterface paymentControllerInterface;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JWTService jwtService;
 
 
     @Override
@@ -52,12 +57,19 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserDetailsSer
     @Override
     public Response save(UserDetailsDTO userDetailsDTO) {
         if (search(userDetailsDTO.getUserId()).getData() == null) {
-
             System.out.println(generateNextAppointmentId());
             userDetailsDTO.setUserId(generateNextAppointmentId());
 
-            userRepo.save(modelMapper.map(userDetailsDTO, UserDetails.class));
-            return createAndSendResponse(HttpStatus.OK.value(), "User Successfully saved!", null);
+            UserDetails userDetails = modelMapper.map(userDetailsDTO, UserDetails.class);
+
+            String password = passwordEncoder.encode(userDetails.getPassword());
+            userDetails.setPw(password);
+            userRepo.save(userDetails);
+
+            HashMap<String,Object> userRoles= new HashMap<>();
+            userRoles.put("userRole",userDetails.getRole());
+            return createAndSendResponse(HttpStatus.OK.value(), "User Successfully saved and JWT successfully generated!", jwtService.generateToken(userRoles,userDetails));
+
         }
         throw new RuntimeException("User already exists!");
     }
@@ -65,6 +77,10 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserDetailsSer
     @Override
     public Response update(UserDetailsDTO userDetailsDTO) {
         if (search(userDetailsDTO.getUserId()).getData() != null) {
+
+            String password = passwordEncoder.encode(userDetailsDTO.getPw());
+            userDetailsDTO.setPw(password);
+
             userRepo.save(modelMapper.map(userDetailsDTO, UserDetails.class));
             return createAndSendResponse(HttpStatus.OK.value(), "User Successfully updated!", null);
         }
@@ -77,6 +93,7 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserDetailsSer
 
             Optional<UserDetails> userDetails = userRepo.findById(s);
             System.out.println(userDetails.get());
+            System.out.println(userDetails.get().getUserId());
 
             paymentControllerInterface.getUserId(userDetails.get().getUserId());
             packageDetailControllerInterface.getUserId(userDetails.get().getUserId());

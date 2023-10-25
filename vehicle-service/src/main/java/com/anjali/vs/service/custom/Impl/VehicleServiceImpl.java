@@ -126,6 +126,18 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
+    public Response getVehiclesByPackageId(String packageId) {
+        List<Vehicle> vehicles = vehicleRepo.findVehiclesByPackageId(packageId);
+        System.out.println(vehicles);
+
+        if (vehicles != null){
+            return createAndSendResponse(HttpStatus.OK.value(), "vehicles successfully retreived!", vehicles);
+        }
+        return createAndSendResponse(HttpStatus.OK.value(), "Cannot find vehicles to the given packageId!", null);
+
+    }
+
+    @Override
     public Response createAndSendResponse(int statusCode, String message, Object data) {
         response.setStatusCode(statusCode);
         response.setMessage(message);
