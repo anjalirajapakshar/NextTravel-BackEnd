@@ -12,15 +12,15 @@ import java.io.Serializable;
 public class PackageDetailDTO implements SuperDTO, Serializable {
     private String packageDetailId;
     private String packageCategory;
-    private String travelDuration;
+    private int travelDuration; //int
     private String travelArea;
     private int noOfAdults;
     private int noOfChildren;
     private int totalHeadCount;
-    private boolean withPetsOrNot;
-    private boolean isGuideIncluded;
+    private String withPetsOrNot;
+    private String isGuideIncluded;
     private double packageValue;
-    private double paidValue;
+
     private String vehicleId;
     private String hotelId;
     private String guideId;

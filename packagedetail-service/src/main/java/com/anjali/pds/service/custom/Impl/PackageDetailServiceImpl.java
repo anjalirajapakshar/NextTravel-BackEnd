@@ -48,13 +48,15 @@ public class PackageDetailServiceImpl implements PackageDetailService {
     @Override
     public Response save(PackageDetailDTO packageDetailDTO) {
         if (search(packageDetailDTO.getPackageDetailId()).getData() == null) {
+            System.out.println(generateNextAppointmentId());
+            packageDetailDTO.setPackageDetailId(generateNextAppointmentId());
 
 //            userControllerInterface.getPackageDetailIds(packageDetailDTO.getPackageDetailId(),packageDetailDTO.getUserId());
 
             packageDetailRepo.save(modelMapper.map(packageDetailDTO, PackageDetail.class));
             return createAndSendResponse(HttpStatus.OK.value(), "PackageDetail Successfully saved!", null);
         }
-        throw new RuntimeException("PackageDetail does not exists!");
+        throw new RuntimeException("Cannot save PackageDetail!");
     }
 
     @Override
@@ -114,19 +116,27 @@ public class PackageDetailServiceImpl implements PackageDetailService {
         System.out.println(userId);
 
         List<PackageDetail> packageDetails = packageDetailRepo.findAll();
+        List<String> deletedIds = new ArrayList<>();
         if (!packageDetails.isEmpty()) {
             for (int i = 0; i < packageDetails.size(); i++) {
                 System.out.println(packageDetails.get(i).getUserId() +"========"+userId );
                 if (Objects.equals(packageDetails.get(i).getUserId(), userId)){
                     System.out.println(packageDetails.get(i).getPackageDetailId());
                     packageDetailRepo.deleteById(packageDetails.get(i).getPackageDetailId());
-                    return createAndSendResponse(HttpStatus.OK.value(), "PackageDetail "+packageDetails.get(i).getPackageDetailId()+" deleted!", null);
+                    deletedIds.add(packageDetails.get(i).getPackageDetailId());
                 }
             }
-            return createAndSendResponse(HttpStatus.OK.value(), "ooppsss!", null);
+            if (!deletedIds.isEmpty()) {
+                // At least one item was deleted
+                return createAndSendResponse(HttpStatus.OK.value(), "PackageDetails " + deletedIds + " deleted!", null);
+            } else {
+                // No matching items were found
+                return createAndSendResponse(HttpStatus.OK.value(), "No matching PackageDetails found!", null);
+            }
+
 
         }
-        throw new RuntimeException("No Payments found in the database!");
+        return createAndSendResponse(HttpStatus.OK.value(), "No matching PackageDetails found to this id!", null);
 
     }
 
@@ -199,5 +209,33 @@ public class PackageDetailServiceImpl implements PackageDetailService {
         }
 
         throw new RuntimeException("Cannot find vehicle");
+    }
+
+    public String generateNextAppointmentId(){
+        List<String> lastIds = packageDetailRepo.getLastId();
+        System.out.println(lastIds);
+
+        String lastId = lastIds.get(0);
+        System.out.println(lastId);
+
+        if (lastId != null){
+            return generateNextAppointmentId(lastId);
+        }
+        return "PD001";
+
+
+
+//        return "Cannot get last PackageDetail id";
+
+    }
+
+    private static String generateNextAppointmentId(String CurrentAppId){
+        if(CurrentAppId != null){
+            String[] split = CurrentAppId.split("PD00");
+            int id = Integer.parseInt(split[1]);
+            id += 1;
+            return "PD00" + id;
+        }
+        return "PD001";
     }
 }

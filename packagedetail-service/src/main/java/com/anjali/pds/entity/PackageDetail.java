@@ -15,15 +15,14 @@ public class PackageDetail {
     @Id
     private String packageDetailId;
     private String packageCategory;
-    private String travelDuration;
+    private int travelDuration; //int
     private String travelArea;
     private int noOfAdults;
     private int noOfChildren;
     private int totalHeadCount;
-    private boolean withPetsOrNot;
-    private boolean isGuideIncluded;
-    private Double packageValue;
-    private Double paidValue;
+    private String withPetsOrNot;
+    private String isGuideIncluded;
+    private double packageValue;
 
     private String vehicleId;
     private String hotelId;

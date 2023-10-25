@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("")
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin
 public class PackageDetailController {
     @Autowired
     private PackageDetailService packageDetailService;
