@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("")
 @CrossOrigin
@@ -22,22 +24,22 @@ public class GuideController {
     private GuideService guideService;
 
     @PostMapping(path = "/save",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response saveGuide(@RequestBody GuideDTO guideDTO){
+    public Response saveGuide(@Valid  @RequestBody GuideDTO guideDTO){
         return guideService.save(guideDTO);
     }
 
     @PutMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response update(@RequestBody GuideDTO guideDTO) {
+    public Response update(@Valid @RequestBody GuideDTO guideDTO) {
         return guideService.update(guideDTO);
     }
 
     @GetMapping(path = "/search", params = "guideId", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response search(@RequestParam("guideId") String guideId) {
+    public Response search( @RequestParam("guideId") String guideId) {
         return guideService.search(guideId);
     }
 
     @GetMapping(path = "/getGuide", params = "guideId")
-    public GuideDTO getGuide(@RequestParam("guideId") String guideId) {
+    public GuideDTO getGuide( @RequestParam("guideId") String guideId) {
         return guideService.getGuide(guideId);
     }
 

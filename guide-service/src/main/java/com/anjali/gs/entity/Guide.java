@@ -3,16 +3,16 @@ package com.anjali.gs.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 
-@Entity
+@Document
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Guide {
-    @Id
+    @MongoId
     private String guideId;
     private String guideName;
     private String guideAddress;
