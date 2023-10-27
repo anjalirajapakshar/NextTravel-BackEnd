@@ -18,6 +18,7 @@ public class Hotel {
     private String hotelName;
     private String hotelCatageory;
     private String hotelLocation;
+    private String hotelLocationWithCoordinates;
     private String hotelEmail;
     private String hotelContactNumber;
     private String isPetsAllowed;

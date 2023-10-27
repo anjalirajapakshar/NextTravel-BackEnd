@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.transaction.Transactional;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -38,8 +38,8 @@ public class GuideServiceImpl implements GuideService {
     @Override
     @PostMapping(path = "save",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public Response save(GuideDTO guideDTO) {
-        System.out.println(generateNextAppointmentId());
-        guideDTO.setGuideId(generateNextAppointmentId());
+//        System.out.println(generateNextAppointmentId());
+//        guideDTO.setGuideId(generateNextAppointmentId());
 
         if (search(guideDTO.getGuideId()).getData() == null) {
             guideRepo.save(modelMapper.map(guideDTO, Guide.class));
@@ -109,19 +109,20 @@ public class GuideServiceImpl implements GuideService {
 
     @Override
     public Response getGuideByUserName(String guideUserName) {
-        Guide guide = guideRepo.findGuideByUsername(guideUserName);
-        System.out.println(guide);
+        Optional<Guide> guide = guideRepo.findByGuideName(guideUserName);
+        System.out.println(guide.get());
 
-        GuideDTO guideDTO = modelMapper.map(guide, GuideDTO.class);
-
-        if (guideDTO != null){
+        if(guide.isPresent()){
+            System.out.println(guide.get());
+            GuideDTO guideDTO = modelMapper.map(guide.get(), GuideDTO.class);
             return createAndSendResponse(HttpStatus.OK.value(), "Guides Successfully retrieved!", guideDTO);
         }
+
         throw new RuntimeException("Guide cannot find!!");
     }
 
     public String generateNextAppointmentId(){
-        List<String> lastIds = guideRepo.getLastId();
+        List<String> lastIds = guideRepo.findGuideIdsByOrderByGuideIdDesc();
         System.out.println(lastIds);
 
         String lastId = lastIds.get(0);
