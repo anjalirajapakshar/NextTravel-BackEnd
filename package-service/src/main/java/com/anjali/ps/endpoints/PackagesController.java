@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -18,12 +19,12 @@ public class PackagesController {
     private PackageService packageService;
 
     @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Response save(@RequestBody PackagesDTO packagesDTO) {
+    public Response save(@Valid @RequestBody PackagesDTO packagesDTO) {
         return packageService.save(packagesDTO);
     }
 
     @PutMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response update(@RequestBody PackagesDTO packagesDTO) {
+    public Response update(@Valid @RequestBody PackagesDTO packagesDTO) {
         return packageService.update(packagesDTO);
     }
 

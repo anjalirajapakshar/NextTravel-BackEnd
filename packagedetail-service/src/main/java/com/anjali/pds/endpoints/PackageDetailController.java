@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,12 +20,12 @@ public class PackageDetailController {
     private PackageDetailService packageDetailService;
 
     @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Response savePackageDetail(@RequestBody PackageDetailDTO packageDetailDTO) {
+    public Response savePackageDetail(@Valid @RequestBody PackageDetailDTO packageDetailDTO) {
         return packageDetailService.save(packageDetailDTO);
     }
 
     @PutMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response update(@RequestBody PackageDetailDTO packageDetailDTO) {
+    public Response update(@Valid @RequestBody PackageDetailDTO packageDetailDTO) {
         return packageDetailService.update(packageDetailDTO);
     }
 
