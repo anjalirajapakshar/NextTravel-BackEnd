@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,12 +27,12 @@ public class VehicleController {
     private VehicleService vehicleService;
 
     @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Response saveVehicle(@RequestBody VehicleDTO vehicleDTO) {
+    public Response saveVehicle(@Valid @RequestBody VehicleDTO vehicleDTO) {
         return vehicleService.saveVehicle(vehicleDTO);
     }
 
     @PutMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response update(@RequestBody VehicleDTO vehicleDTO) {
+    public Response update(@Valid @RequestBody VehicleDTO vehicleDTO) {
         return vehicleService.update(vehicleDTO);
     }
 

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("")
 @CrossOrigin
@@ -15,12 +17,12 @@ public class UserController {
     private UserDetailsServicee userDetailsServicee;
 
     @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Response save(@RequestBody UserDetailsDTO userDetailsDTO) {
+    public Response save(@Valid @RequestBody UserDetailsDTO userDetailsDTO) {
         return userDetailsServicee.save(userDetailsDTO);
     }
 
     @PutMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response update(@RequestBody UserDetailsDTO userDetailsDTO) {
+    public Response update(@Valid @RequestBody UserDetailsDTO userDetailsDTO) {
         return userDetailsServicee.update(userDetailsDTO);
     }
 

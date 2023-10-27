@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,12 +20,12 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @PostMapping(path = "/sp", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Response savePayment(@RequestBody PaymentDTO paymentDTO) {
+    public Response savePayment(@Valid @RequestBody PaymentDTO paymentDTO) {
         return paymentService.savePayment(paymentDTO);
     }
 
     @PutMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response update(@RequestBody PaymentDTO paymentDTO) {
+    public Response update(@Valid @RequestBody PaymentDTO paymentDTO) {
         return paymentService.update(paymentDTO);
     }
 
