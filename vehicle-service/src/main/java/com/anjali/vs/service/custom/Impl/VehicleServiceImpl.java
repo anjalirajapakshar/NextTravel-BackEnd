@@ -35,8 +35,8 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public Response saveVehicle(VehicleDTO vehicleDTO) {
         if (search(vehicleDTO.getVehicleID()).getData() == null) {
-            System.out.println(generateNextAppointmentId());
-            vehicleDTO.setVehicleID(generateNextAppointmentId());
+            System.out.println(generateNextUserId());
+            vehicleDTO.setVehicleID(generateNextUserId());
 
             packagesControllerInterface.getVehicleIds(vehicleDTO.getVehicleID(),vehicleDTO.getPackageId());
 
@@ -145,29 +145,30 @@ public class VehicleServiceImpl implements VehicleService {
         return response;
     }
 
-    public String generateNextAppointmentId(){
+    public String generateNextUserId() {
         List<String> lastIds = vehicleRepo.getLastId();
         System.out.println(lastIds);
 
-        String lastId = lastIds.get(0);
-        System.out.println(lastId);
+        if (lastIds != null && !lastIds.isEmpty()) {
+            String lastId = lastIds.get(0);
+            System.out.println(lastId);
 
-        if (lastId != null){
-            return generateNextAppointmentId(lastId);
+            // Check if the last ID matches the expected format "U00X" or "U0X" or "UXX"
+            if (lastId.matches("V\\d{1,3}")) {
+                return generateNextUserId(lastId);
+            }
         }
-        return "Cannot get last vehicle id";
 
+        return "V001"; // Fallback if the format is not as expected
     }
 
-    private static String generateNextAppointmentId(String CurrentAppId){
-        if(CurrentAppId != null){
-            String[] split = CurrentAppId.split("V00");
-            int id = Integer.parseInt(split[1]);
+    private static String generateNextUserId(String currentUserId) {
+        if (currentUserId != null && currentUserId.matches("V\\d{1,3}")) {
+            int id = Integer.parseInt(currentUserId.replace("V", ""));
             id += 1;
-            return "V00" + id;
+            return "V" + String.format("%03d", id);
         }
-        return "V001";
+        return "V001"; // Fallback if the format is not as expected
     }
-
 
 }

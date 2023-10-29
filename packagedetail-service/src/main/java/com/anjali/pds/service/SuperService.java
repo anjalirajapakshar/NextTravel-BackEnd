@@ -25,6 +25,6 @@ public interface SuperService<T extends PackageDetailDTO,ID >{
 
     Response createAndSendResponse(int statusCode, String message, Object data);
 
-    PackageDetailDTO getPackageDetailByUserName(String packageDetailName);
+    Response getPackageDetailByUserName(String packageDetailName);
 
 }

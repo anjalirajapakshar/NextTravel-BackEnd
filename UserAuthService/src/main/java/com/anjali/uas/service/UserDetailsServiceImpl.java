@@ -57,8 +57,8 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserDetailsSer
     @Override
     public Response save(UserDetailsDTO userDetailsDTO) {
         if (search(userDetailsDTO.getUserId()).getData() == null) {
-            System.out.println(generateNextAppointmentId());
-            userDetailsDTO.setUserId(generateNextAppointmentId());
+            System.out.println(generateNextUserId());
+            userDetailsDTO.setUserId(generateNextUserId());
 
             UserDetails userDetails = modelMapper.map(userDetailsDTO, UserDetails.class);
 
@@ -217,28 +217,31 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserDetailsSer
     public boolean passwordValidator(String enterdPassword, String hashedPassword) {
         return passwordEncoder.matches(enterdPassword,hashedPassword);
     }
-
-    public String generateNextAppointmentId(){
+    public String generateNextUserId() {
         List<String> lastIds = userRepo.getLastId();
         System.out.println(lastIds);
 
-        String lastId = lastIds.get(0);
-        System.out.println(lastId);
+        if (lastIds != null && !lastIds.isEmpty()) {
+            String lastId = lastIds.get(0);
+            System.out.println(lastId);
 
-        if (lastId != null){
-            return generateNextAppointmentId(lastId);
+            // Check if the last ID matches the expected format "U00X" or "U0X" or "UXX"
+            if (lastId.matches("U\\d{1,3}")) {
+                return generateNextUserId(lastId);
+            }
         }
-        return "Cannot get last user id";
 
+        return "U001"; // Fallback if the format is not as expected
     }
 
-    private static String generateNextAppointmentId(String CurrentAppId){
-        if(CurrentAppId != null){
-            String[] split = CurrentAppId.split("U00");
-            int id = Integer.parseInt(split[1]);
+    private static String generateNextUserId(String currentUserId) {
+        if (currentUserId != null && currentUserId.matches("U\\d{1,3}")) {
+            int id = Integer.parseInt(currentUserId.replace("U", ""));
             id += 1;
-            return "U00" + id;
+            return "U" + String.format("%03d", id);
         }
-        return "U001";
+        return "U001"; // Fallback if the format is not as expected
     }
+
+
 }

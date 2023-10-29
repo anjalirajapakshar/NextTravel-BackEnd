@@ -36,6 +36,8 @@ public class PaymentServiceImpl implements PaymentService {
     public Response savePayment(PaymentDTO paymentDTO) {
         if (search(paymentDTO.getPaymentId()).getData() == null) {
             System.out.println(paymentDTO);
+            System.out.println(generateNextAppointmentId());
+            paymentDTO.setPaymentId(generateNextAppointmentId());
 //            userDetailsControllerInterface.getPaymentIds(paymentDTO.getPaymentId(),paymentDTO.getUserId());
 
             paymentRepo.save(modelMapper.map(paymentDTO, Payment.class));
@@ -131,4 +133,33 @@ public class PaymentServiceImpl implements PaymentService {
 
 
     }
+
+    public String generateNextAppointmentId(){
+        List<String> lastIds = paymentRepo.getLastId();
+        System.out.println(lastIds);
+
+        String lastId = lastIds.get(0);
+        System.out.println(lastId);
+
+        if (lastId != null){
+            return generateNextAppointmentId(lastId);
+        }
+        return "PAY001";
+
+
+
+//        return "Cannot get last PackageDetail id";
+
+    }
+
+    private static String generateNextAppointmentId(String CurrentAppId){
+        if(CurrentAppId != null){
+            String[] split = CurrentAppId.split("PAY00");
+            int id = Integer.parseInt(split[1]);
+            id += 1;
+            return "PAY00" + id;
+        }
+        return "PAY001";
+    }
+
 }

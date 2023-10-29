@@ -49,7 +49,7 @@ public class UserDetailsDTO implements SuperDTO, Serializable {
     private String userAddress;
 
     @NotNull(message = "userDOB cannot be null")
-    @Size(min = 2,max = 10,message = "userDOB must be between 2 and 10 characters")
+    @Size(min = 2,max = 11,message = "userDOB must be between 2 and 10 characters")
     @NotBlank(message = "userDOB cannot be blank")
     private String userDOB;
 
@@ -64,7 +64,7 @@ public class UserDetailsDTO implements SuperDTO, Serializable {
     private String userEmail;
 
     @NotNull(message = "gender cannot be null")
-    @Size(min = 4,max = 5,message = "gender must be between 4 and 5 characters")
+    @Size(min = 4,max = 20,message = "gender must be between 4 and 20 characters")
     @NotBlank(message = "gender cannot be blank")
     private String gender;
 
