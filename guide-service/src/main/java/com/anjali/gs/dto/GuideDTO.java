@@ -33,7 +33,7 @@ public class GuideDTO implements Serializable,SuperDTO{
     private int guideAge;
 
     @NotNull(message = "gender cannot be null")
-    @Size(min = 4,max = 5,message = "gender must be between 4 and 5 characters")
+    @Size(min = 4,max = 10,message = "gender must be between 4 and 5 characters")
     @NotBlank(message = "gender cannot be blank")
     private String gender;
 

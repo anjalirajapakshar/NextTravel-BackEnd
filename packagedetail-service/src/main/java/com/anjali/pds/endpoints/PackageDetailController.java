@@ -55,7 +55,7 @@ public class PackageDetailController {
     }
 
     @GetMapping(path = "/getPackageDetailByUserName", params = "PackageDetailName")
-    public PackageDetailDTO getPackageDetailByUserName(@RequestParam("PackageDetailName") String packageDetailName){
+    public Response getPackageDetailByUserName(@RequestParam("PackageDetailName") String packageDetailName){
         return packageDetailService.getPackageDetailByUserName(packageDetailName);
     }
 }

@@ -14,4 +14,7 @@ public interface PackageDetailRepo extends JpaRepository<PackageDetail, String> 
 
     @Query("SELECT p.packageDetailId from PackageDetail p order by p.packageDetailId DESC")
     List<String> getLastId();
+
+    @Query("SELECT p FROM PackageDetail p WHERE p.userId = :username")
+    PackageDetail findPackageDetailByUserId(@Param("username") String username);
 }

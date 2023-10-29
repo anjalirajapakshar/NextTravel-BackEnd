@@ -38,8 +38,8 @@ public class GuideServiceImpl implements GuideService {
     @Override
     @PostMapping(path = "save",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public Response save(GuideDTO guideDTO) {
-//        System.out.println(generateNextAppointmentId());
-//        guideDTO.setGuideId(generateNextAppointmentId());
+//        System.out.println(generateNextUserId());
+//        guideDTO.setGuideId(generateNextUserId());
 
         if (search(guideDTO.getGuideId()).getData() == null) {
             guideRepo.save(modelMapper.map(guideDTO, Guide.class));
@@ -121,27 +121,29 @@ public class GuideServiceImpl implements GuideService {
         throw new RuntimeException("Guide cannot find!!");
     }
 
-    public String generateNextAppointmentId(){
+    public String generateNextUserId() {
         List<String> lastIds = guideRepo.findGuideIdsByOrderByGuideIdDesc();
         System.out.println(lastIds);
 
-        String lastId = lastIds.get(0);
-        System.out.println(lastId);
+        if (lastIds != null && !lastIds.isEmpty()) {
+            String lastId = lastIds.get(0);
+            System.out.println(lastId);
 
-        if (lastId != null){
-            return generateNextAppointmentId(lastId);
+            // Check if the last ID matches the expected format "U00X" or "U0X" or "UXX"
+            if (lastId.matches("G\\d{1,3}")) {
+                return generateNextUserId(lastId);
+            }
         }
-        return "Cannot get last Guide id";
 
+        return "G001"; // Fallback if the format is not as expected
     }
 
-    private static String generateNextAppointmentId(String CurrentAppId){
-        if(CurrentAppId != null){
-            String[] split = CurrentAppId.split("G00");
-            int id = Integer.parseInt(split[1]);
+    private static String generateNextUserId(String currentUserId) {
+        if (currentUserId != null && currentUserId.matches("G\\d{1,3}")) {
+            int id = Integer.parseInt(currentUserId.replace("G", ""));
             id += 1;
-            return "G00" + id;
+            return "G" + String.format("%03d", id);
         }
-        return "G001";
+        return "G001"; // Fallback if the format is not as expected
     }
 }

@@ -23,7 +23,7 @@ public class PackageDetailDTO implements SuperDTO, Serializable {
 
     @NotNull(message = "travelDuration cannot be null")
     @Min(value = 1, message = "travelDuration must be at least 1")
-    @Max(value = 2, message = "travelDuration cannot be greater than 2")
+    @Max(value = 100, message = "travelDuration cannot be greater than 2")
     private int travelDuration; //int
 
     @NotNull(message = "travelArea cannot be null")
@@ -33,17 +33,17 @@ public class PackageDetailDTO implements SuperDTO, Serializable {
 
     @NotNull(message = "noOfAdults cannot be null")
     @Min(value = 1, message = "noOfAdults must be at least 1")
-    @Max(value = 2, message = "noOfAdults cannot be greater than 2")
+    @Max(value = 100, message = "noOfAdults cannot be greater than 2")
     private int noOfAdults;
 
     @NotNull(message = "noOfChildren cannot be null")
     @Min(value = 1, message = "noOfChildren must be at least 1")
-    @Max(value = 2, message = "noOfChildren cannot be greater than 2")
+    @Max(value = 100, message = "noOfChildren cannot be greater than 2")
     private int noOfChildren;
 
     @NotNull(message = "totalHeadCount cannot be null")
     @Min(value = 1, message = "totalHeadCount must be at least 1")
-    @Max(value = 2, message = "totalHeadCount cannot be greater than 2")
+    @Max(value = 100, message = "totalHeadCount cannot be greater than 2")
     private int totalHeadCount;
 
     @NotNull(message = "withPetsOrNot cannot be null")

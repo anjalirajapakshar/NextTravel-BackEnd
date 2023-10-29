@@ -35,8 +35,8 @@ public class HotelServiceImpl implements HotelService {
     public Response saveHotel(HotelDTO hotelDTO) {
 
         if (search(hotelDTO.getHotelID()).getData() == null) {
-            System.out.println(generateNextAppointmentId());
-            hotelDTO.setHotelID(generateNextAppointmentId());
+            System.out.println(generateNextUserId());
+            hotelDTO.setHotelID(generateNextUserId());
 
             packagesControllerInterface.getHotelIds(hotelDTO.getHotelID(),hotelDTO.getPackageId());
 
@@ -145,27 +145,30 @@ public class HotelServiceImpl implements HotelService {
 
     }
 
-    public String generateNextAppointmentId(){
+
+    public String generateNextUserId() {
         List<String> lastIds = hotelRepo.getLastId();
         System.out.println(lastIds);
 
-        String lastId = lastIds.get(0);
-        System.out.println(lastId);
+        if (lastIds != null && !lastIds.isEmpty()) {
+            String lastId = lastIds.get(0);
+            System.out.println(lastId);
 
-        if (lastId != null){
-            return generateNextAppointmentId(lastId);
+            // Check if the last ID matches the expected format "U00X" or "U0X" or "UXX"
+            if (lastId.matches("H\\d{1,3}")) {
+                return generateNextUserId(lastId);
+            }
         }
-        return "Cannot get last hotel id";
 
+        return "H001"; // Fallback if the format is not as expected
     }
 
-    private static String generateNextAppointmentId(String CurrentAppId){
-        if(CurrentAppId != null){
-            String[] split = CurrentAppId.split("H00");
-            int id = Integer.parseInt(split[1]);
+    private static String generateNextUserId(String currentUserId) {
+        if (currentUserId != null && currentUserId.matches("H\\d{1,3}")) {
+            int id = Integer.parseInt(currentUserId.replace("H", ""));
             id += 1;
-            return "H00" + id;
+            return "H" + String.format("%03d", id);
         }
-        return "H001";
+        return "H001"; // Fallback if the format is not as expected
     }
 }
