@@ -20,7 +20,7 @@ public class PaymentDTO implements SuperDTO, Serializable {
     private String paymentId;
 
     @NotNull(message = "paymentDate cannot be null")
-    @Size(min = 2,max = 10,message = "paymentDate must be between 2 and 10 characters")
+    @Size(min = 2,max = 12,message = "paymentDate must be between 2 and 12 characters")
     @NotBlank(message = "paymentDate cannot be blank")
     private String paymentDate;
 

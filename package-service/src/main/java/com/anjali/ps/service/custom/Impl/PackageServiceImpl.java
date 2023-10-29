@@ -44,8 +44,8 @@ public class PackageServiceImpl implements PackageService {
     public Response save(PackagesDTO packagesDTO) {
         if (search(packagesDTO.getPackageId()).getData() == null) {
 
-            System.out.println(generateNextAppointmentId());
-            packagesDTO.setPackageId(generateNextAppointmentId());
+            System.out.println(generateNextUserId());
+            packagesDTO.setPackageId(generateNextUserId());
 
             packageRepo.save(modelMapper.map(packagesDTO, Packages.class));
             return createAndSendResponse(HttpStatus.OK.value(), "Package Successfully saved!", null);
@@ -196,27 +196,30 @@ public class PackageServiceImpl implements PackageService {
         throw new RuntimeException("Package cannot find!!");
     }
 
-    public String generateNextAppointmentId(){
+
+    public String generateNextUserId() {
         List<String> lastIds = packageRepo.getLastId();
         System.out.println(lastIds);
 
-        String lastId = lastIds.get(0);
-        System.out.println(lastId);
+        if (lastIds != null && !lastIds.isEmpty()) {
+            String lastId = lastIds.get(0);
+            System.out.println(lastId);
 
-        if (lastId != null){
-            return generateNextAppointmentId(lastId);
+            // Check if the last ID matches the expected format "U00X" or "U0X" or "UXX"
+            if (lastId.matches("P\\d{1,3}")) {
+                return generateNextUserId(lastId);
+            }
         }
-        return "Cannot get last package id";
 
+        return "P001"; // Fallback if the format is not as expected
     }
 
-    private static String generateNextAppointmentId(String CurrentAppId){
-        if(CurrentAppId != null){
-            String[] split = CurrentAppId.split("P00");
-            int id = Integer.parseInt(split[1]);
+    private static String generateNextUserId(String currentUserId) {
+        if (currentUserId != null && currentUserId.matches("P\\d{1,3}")) {
+            int id = Integer.parseInt(currentUserId.replace("P", ""));
             id += 1;
-            return "P00" + id;
+            return "P" + String.format("%03d", id);
         }
-        return "P001";
+        return "P001"; // Fallback if the format is not as expected
     }
 }

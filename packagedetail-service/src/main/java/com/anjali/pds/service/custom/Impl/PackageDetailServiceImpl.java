@@ -149,16 +149,17 @@ public class PackageDetailServiceImpl implements PackageDetailService {
     }
 
     @Override
-    public PackageDetailDTO getPackageDetailByUserName(String packageDetailName) {
-        PackageDetail packageDetail = packageDetailRepo.findPackageDetailByUsername(packageDetailName);
+    public Response getPackageDetailByUserName(String packageDetailName) {
+        PackageDetail packageDetail = packageDetailRepo.findPackageDetailByUserId(packageDetailName);
         System.out.println(packageDetail);
 
         PackageDetailDTO packageDetailDTO = modelMapper.map(packageDetail, PackageDetailDTO.class);
 
         if (packageDetailDTO != null){
-            return packageDetailDTO;
+            return createAndSendResponse(HttpStatus.OK.value(), "PackageDetails successfully received!", packageDetailDTO);
         }
-        throw new RuntimeException("packageDetail cannot find!!");
+        return createAndSendResponse(HttpStatus.NOT_FOUND.value(), "PackageDetails cannot received!", null);
+
     }
 
     public GuideDTO getGuide(String s){

@@ -15,21 +15,21 @@ import java.io.Serializable;
 @Data
 public class PackagesDTO implements Serializable,SuperDTO{
 
-    @Valid
+//    @Valid
     private String packageId;
 
-    @NotNull(message = "packageCategory cannot be null")
-    @Size(min = 2,max = 50,message = "packageCategory must be between 2 and 50 characters")
-    @NotBlank(message = "packageCategory cannot be blank")
+//    @NotNull(message = "packageCategory cannot be null")
+//    @Size(min = 2,max = 50,message = "packageCategory must be between 2 and 50 characters")
+//    @NotBlank(message = "packageCategory cannot be blank")
     private String packageCategory;
 
-    @NotNull(message = "vehicleCategory cannot be null")
-    @Size(min = 2,max = 50,message = "vehicleCategory must be between 2 and 50 characters")
-    @NotBlank(message = "vehicleCategory cannot be blank")
+//    @NotNull(message = "vehicleCategory cannot be null")
+//    @Size(min = 2,max = 50,message = "vehicleCategory must be between 2 and 50 characters")
+//    @NotBlank(message = "vehicleCategory cannot be blank")
     private String vehicleCategory;
 
-    @NotNull(message = "hotelCategory cannot be null")
-    @Size(min = 2,max = 50,message = "hotelCategory must be between 2 and 50 characters")
-    @NotBlank(message = "hotelCategory cannot be blank")
+//    @NotNull(message = "hotelCategory cannot be null")
+//    @Size(min = 2,max = 50,message = "hotelCategory must be between 2 and 50 characters")
+//    @NotBlank(message = "hotelCategory cannot be blank")
     private String hotelCategory;
 }
